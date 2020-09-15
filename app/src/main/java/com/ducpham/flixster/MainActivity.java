@@ -2,11 +2,13 @@ package com.ducpham.flixster;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.RequestParams;
@@ -30,10 +32,12 @@ public class MainActivity extends AppCompatActivity {
 
     List<Movie> movieList;
     RecyclerView recycleView;
+    androidx.appcompat.widget.Toolbar topAppBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        topAppBar = findViewById(R.id.top_app_bar);
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
             @Override
@@ -61,6 +65,18 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG,"Failed");
             }
         });
-
+        topAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.favorite:
+                        recycleView.smoothScrollToPosition(0);
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
     }
 }
