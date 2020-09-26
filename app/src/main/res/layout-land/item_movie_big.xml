@@ -6,11 +6,13 @@
     android:layout_width="match_parent"
     android:layout_marginTop="20dp"
     android:layout_marginBottom="20dp"
+    android:id="@+id/layoutBig"
     android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/bigPoster"
         android:layout_width="0dp"
+        android:transitionName="movieTrans"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         tools:srcCompat="@tools:sample/avatars"

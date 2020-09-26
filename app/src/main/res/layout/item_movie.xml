@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_marginTop="20dp"
+    android:id="@+id/layout"
     android:layout_marginBottom="20dp"
     android:background="@drawable/layout_bg"
     android:layout_height="wrap_content">
@@ -13,6 +14,7 @@
         android:layout_width="230dp"
         android:layout_height="350dp"
         android:contentDescription="poster"
+        android:transitionName="movieTrans"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView

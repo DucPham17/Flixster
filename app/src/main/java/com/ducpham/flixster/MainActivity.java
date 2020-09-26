@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     List<Movie> movieList;
     RecyclerView recycleView;
-    androidx.appcompat.widget.Toolbar topAppBar;
+    Toolbar topAppBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

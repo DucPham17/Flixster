@@ -3,18 +3,25 @@ package com.ducpham.flixster.module;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Parcel
 public class Movie {
+    int id;
     String backdropPath;
     String posterPath;
     String title;
     String overview;
     double voteAverage;
 
+    public Movie(){
+
+    }
     public Movie(JSONObject jsonObject) throws JSONException {
+        this.id = jsonObject.getInt("id");
         this.posterPath = jsonObject.getString("poster_path");
         this.title = jsonObject.getString("original_title");
         this.overview = jsonObject.getString("overview");
@@ -45,7 +52,9 @@ public class Movie {
     public String getBackdropPath() {
         return String.format("https://image.tmdb.org/t/p/w342/%s",backdropPath);
     }
-
+    public int getId(){
+        return this.id;
+    }
     public String getOverview() {
         return overview;
     }

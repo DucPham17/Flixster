@@ -1,7 +1,11 @@
 package com.ducpham.flixster.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Parcel;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.ducpham.flixster.DetailPage;
 import com.ducpham.flixster.R;
 import com.ducpham.flixster.module.Movie;
+
+import org.parceler.Parcels;
 
 import java.util.*;
 import java.util.zip.Inflater;
@@ -57,12 +65,17 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         switch (holder.getItemViewType()){
             case HIGH_RATE:
                 ViewHolderBig holder1 = (ViewHolderBig) holder;
-                ImageView imageView1 = holder1.bigPoster;
+                final ImageView imageView1 = holder1.bigPoster;
+                View bigLayout = holder1.layoutBig;
                 Glide.with(context).asBitmap().load(movie.getBackdropPath()).into(imageView1);
-                imageView1.setOnClickListener(new View.OnClickListener() {
+                bigLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(context,movie.getTitle(),Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        intent.putExtra("movie", Parcels.wrap(movie));
+                        ActivityOptionsCompat actionCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context,(View) imageView1,"movieTrans");
+                        intent.setClass(context,DetailPage.class);
+                        context.startActivity(intent, actionCompat.toBundle());
                     }
                 });
                 break;
@@ -87,9 +100,9 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return -1;
     }
 
-    public void configViewHolder(@NonNull ViewHolder holder, int position) {
-        Movie movie = movieList.get(position);
-        ImageView poster = holder.poster;
+    public void configViewHolder(@NonNull final ViewHolder holder, int position) {
+        final Movie movie = movieList.get(position);
+        final ImageView poster = holder.poster;
         TextView title = holder.title;
         TextView overview = holder.overview;
 
@@ -102,6 +115,18 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
         title.setText(movie.getTitle());
         overview.setText(movie.getOverview());
+        View layout = holder.layout;
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra("movie", Parcels.wrap(movie));
+                intent.setClass(context,DetailPage.class);
+
+                ActivityOptionsCompat actionCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context,(View) poster,"movieTrans");
+                context.startActivity(intent, actionCompat.toBundle());
+            }
+        });
     }
 
     @Override
@@ -113,20 +138,23 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         ImageView poster;
         TextView title;
         TextView overview;
+        View layout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             poster = itemView.findViewById(R.id.poster);
             title = itemView.findViewById(R.id.title);
             overview = itemView.findViewById(R.id.overview);
+            layout = itemView.findViewById(R.id.layout);
         }
     }
 
     public class ViewHolderBig extends RecyclerView.ViewHolder {
         ImageView bigPoster;
+        View layoutBig;
         public ViewHolderBig(@NonNull View itemView) {
             super(itemView);
             bigPoster = itemView.findViewById(R.id.bigPoster);
-
+            layoutBig = itemView.findViewById(R.id.layoutBig);
         }
     }
 }
