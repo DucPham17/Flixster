@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
-
+    dataBinding.enabled = true
     defaultConfig {
         applicationId "com.ducpham.flixster"
         minSdkVersion 21
@@ -37,4 +37,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'org.parceler:parceler-api:1.1.12'
     annotationProcessor 'org.parceler:parceler:1.1.12'
+    apply plugin: 'com.android.application'
+    implementation 'jp.wasabeef:glide-transformations:4.1.0'
+    implementation 'jp.co.cyberagent.android:gpuimage:2.0.4'
 }

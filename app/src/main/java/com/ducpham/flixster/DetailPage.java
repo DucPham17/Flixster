@@ -62,8 +62,15 @@ public class DetailPage extends YouTubeBaseActivity {
                             JSONArray results = jsonObject.getJSONArray("results");
                             JSONObject object =  results.getJSONObject(0);
                             String clipId = object.getString("key");
-                            youTubePlayer.cueVideo(clipId);
 
+                            if(movie.getVoteAverage() > 7.0){
+                                Log.d("Detail Page", "play");
+                                youTubePlayer.loadVideo(clipId);
+                                Log.d("Detail Page", String.valueOf(youTubePlayer.isPlaying()));
+                            }
+                            else{
+                                youTubePlayer.cueVideo(clipId);
+                            }
 
                         }catch (JSONException e) {
                             Log.e(TAG,"JSON exception",e);

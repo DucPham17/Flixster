@@ -27,6 +27,8 @@ import org.parceler.Parcels;
 import java.util.*;
 import java.util.zip.Inflater;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<Movie> movieList;
     Context context;
@@ -67,14 +69,14 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 ViewHolderBig holder1 = (ViewHolderBig) holder;
                 final ImageView imageView1 = holder1.bigPoster;
                 View bigLayout = holder1.layoutBig;
-                Glide.with(context).asBitmap().load(movie.getBackdropPath()).into(imageView1);
+                Glide.with(context).asBitmap().load(movie.getBackdropPath()).transform(new RoundedCornersTransformation(30, 5)).into(imageView1);
                 bigLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent();
                         intent.putExtra("movie", Parcels.wrap(movie));
-                        ActivityOptionsCompat actionCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context,(View) imageView1,"movieTrans");
                         intent.setClass(context,DetailPage.class);
+                        ActivityOptionsCompat actionCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context,(View) imageView1,"movieTrans");
                         context.startActivity(intent, actionCompat.toBundle());
                     }
                 });
@@ -108,10 +110,10 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         //check orientation
         if(context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            Glide.with(context).asBitmap().load(movie.getBackdropPath()).into(poster);
+            Glide.with(context).asBitmap().load(movie.getBackdropPath()).transform(new RoundedCornersTransformation(30, 5)).into(poster);
         }
         else{
-            Glide.with(context).asBitmap().load(movie.getPosterPath()).into(poster);
+            Glide.with(context).asBitmap().load(movie.getPosterPath()).transform(new RoundedCornersTransformation(30, 5)).into(poster);
         }
         title.setText(movie.getTitle());
         overview.setText(movie.getOverview());
